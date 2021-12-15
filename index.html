@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://img.icons8.com/color/48/000000/left-handed.png"/>
+    <link rel="stylesheet" href="style.css">
+    <title>Phrase Cleaner</title>
+</head>
+<body>
+    <header>
+        <img src="https://img.icons8.com/color/96/000000/left-handed.png"/>
+        <h1> Phrase Cleaner </h1>
+    </header>
+
+    <section>
+        <h2> Limpe palavrões de suas frases ;)</h2>
+        <p id="digiteFrase">Digite a sua frase:</p>
+        <textarea name="frase" id="frase" cols="50" rows="10" maxlength=255 ></textarea>
+        <div id="contador">
+            <p id="total"></p>
+            <p id="caracteres">0/255 caracteres </p>
+            
+        </div>
+        
+        <button id="button" type="button" onclick="limparFrase()">Limpar frase</button>
+    </section>
+    
+    <footer>
+        Copyrigth &copy; 2021 - Todos os direitos reservados
+    </footer>
+</body>
+
+<script>
+
+        document.getElementById("frase").addEventListener('keyup', function(event) {
+            let texto = document.getElementById("frase").value   
+            document.getElementById("caracteres").innerHTML = '<span style="color: red;">'+ texto.length +'</span>/255 caracteres'
+    
+        })
+
+    
+    
+    var palavrões = ["porra", "caralho", "merda", "puto", "corno", "merda,"]
+
+    function limparFrase(){
+        let textoArray  = document.getElementById("frase").value
+        if( textoArray < 0 || textoArray == ""){
+            alert("Campo em branco!")
+        }else{
+            let b = textoArray.replace(/\s/gm, ".")
+            textoArray = b.split(".")
+            let vazio = true
+            let quantidade = 0
+            textoArray.forEach((texto, posi) => {
+                palavrões.forEach((palav, posi2) => {
+                    if(texto == palav){
+                        vazio = false
+                        quantidade ++
+                        textoArray[posi] = "***"
+                        let string = textoArray.toString()
+                        let textoNovo = string.replace(/,/g, " ")
+                        let a = document.getElementById("frase").value = textoNovo
+                    }
+                })
+            });
+
+             if(vazio){
+                alert("Sua frase já está limpinha ;)")
+             }
+
+             if(quantidade > 0){
+                document.getElementById("total").innerHTML = '<span>'+ quantidade +' palavrões</span> foram removidos :)'
+                document.getElementById("digiteFrase").innerText = "Frase limpinha :)"
+                document.getElementById("frase").setAttribute("style", "border: solid 1px green;")
+                document.getElementById("digiteFrase").setAttribute("style", "color: green;")
+                document.getElementById("button").setAttribute("onclick", "refresh()")
+                document.getElementById("button").innerText = "Limpar outra frase"
+                document.getElementById("button").setAttribute("style", "background-color: green;")
+            }
+                        
+        }
+    }
+
+    function refresh(){
+        location.reload();
+    }    
+        
+
+
+</script>
+</html>
